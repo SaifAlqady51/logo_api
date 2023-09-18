@@ -42,22 +42,22 @@ app.get<{}, MessageResponse>("/", (req, res) => {
 });
 
 // post request to upload images from images folder to mongodb atlas database
-app.post('/upload', (req: express.Request, res: express.Response) => {
-  for (const file of files ) {
-    const saveImage = new ImageModel({
-      name: file.slice(0, 2),
-      img: {
-        data: fs.readFileSync(`images/${file}`).toString('base64'),
-        contentType: `image/${file.slice(-3)}`,
-      },
-    });
-    saveImage
-      .save()
-      .then(() => console.log('image is saved'))
-      .catch((error: Error) => console.log(error));
-  }
-  res.send('done');
-});
+// app.post('/upload', (req: express.Request, res: express.Response) => {
+//   for (const file of files ) {
+//     const saveImage = new ImageModel({
+//       name: file.slice(0, 2),
+//       img: {
+//         data: fs.readFileSync(`images/${file}`).toString('base64'),
+//         contentType: `image/${file.slice(-3)}`,
+//       },
+//     });
+//     saveImage
+//       .save()
+//       .then(() => console.log('image is saved'))
+//       .catch((error: Error) => console.log(error));
+//   }
+//   res.send('done');
+// });
 
 // app.use(middlewares.notFound);
 // app.use(middlewares.errorHandler);
