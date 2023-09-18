@@ -1,16 +1,11 @@
 import express from 'express';
-
+import getImage from '../middleware/getImage'
 import MessageResponse from '../interfaces/MessageResponse';
-import emojis from './emojis';
 
 const router = express.Router();
 
-router.get<{}, MessageResponse>('/', (req, res) => {
-  res.json({
-    message: 'API',
-  });
-});
+router.use('/', getImage );
 
-router.use('/emojis', emojis);
+
 
 export default router;

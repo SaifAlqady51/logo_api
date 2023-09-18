@@ -1,30 +1,65 @@
-import express from 'express';
-import morgan from 'morgan';
-import helmet from 'helmet';
-import cors from 'cors';
+import express,{Request,Response} from "express";
+import morgan from "morgan";
+import helmet from "helmet";
+import cors from "cors";
+import mongoose from "mongoose";
+import fs from 'fs'
 
-import * as middlewares from './middlewares';
-import api from './api';
-import MessageResponse from './interfaces/MessageResponse';
+import * as middlewares from "./middleware/middlewares";
+import api from "./api";
+import MessageResponse from "./interfaces/MessageResponse";
+import {ImageModel} from './database/ImageScheme'
+import getImage from "./middleware/getImage";
 
-require('dotenv').config();
+require("dotenv").config();
 
+// creating express app
 const app = express();
 
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 app.use(helmet());
-app.use(cors());
+app.use(cors(
+	{origin:"*"}
+));
 app.use(express.json());
 
-app.get<{}, MessageResponse>('/', (req, res) => {
-  res.json({
-    message:'main page',
-  });
+// create a list of all files in images folder
+const files = fs.readdirSync('images')
+
+// connecting mongodb atlas
+const MONGO_URL = process.env.DATABASE_URL as string
+mongoose.Promise = Promise;
+mongoose.connect(MONGO_URL).then(() => console.log("connected successfully"));
+mongoose.connection.on("error", (error: Error) => console.log(error));
+
+
+app.use("/api", api);
+
+app.get<{}, MessageResponse>("/", (req, res) => {
+	res.json({
+		message: "main page",
+	});
 });
 
-app.use('/api', api);
+// post request to upload images from images folder to mongodb atlas database
+app.post('/upload', (req: express.Request, res: express.Response) => {
+  for (const file of files ) {
+    const saveImage = new ImageModel({
+      name: file.slice(0, 2),
+      img: {
+        data: fs.readFileSync(`images/${file}`).toString('base64'),
+        contentType: `image/${file.slice(-3)}`,
+      },
+    });
+    saveImage
+      .save()
+      .then(() => console.log('image is saved'))
+      .catch((error: Error) => console.log(error));
+  }
+  res.send('done');
+});
 
-app.use(middlewares.notFound);
-app.use(middlewares.errorHandler);
+// app.use(middlewares.notFound);
+// app.use(middlewares.errorHandler);
 
 export default app;
