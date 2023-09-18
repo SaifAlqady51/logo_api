@@ -27,7 +27,7 @@ app.use(express.json());
 // const files = fs.readdirSync('images')
 
 // connecting mongodb atlas
-const MONGO_URL = process.env.DATABASE_URL as string
+const MONGO_URL = `${process.env.DATABASE_URL}` as string
 mongoose.Promise = Promise;
 mongoose.connect(MONGO_URL).then(() => console.log("connected successfully"));
 mongoose.connection.on("error", (error: Error) => console.log(error));
