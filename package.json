@@ -9,7 +9,7 @@
     "build": "tsc",
     "lint": "eslint --fix src test",
     "test": "jest",
-	"prettier":"prettier --config .prettierrc 'src/**/*.ts' --write",
+    "prettier": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "typecheck": "tsc --noEmit",
     "vercel-build": "echo"
   },
@@ -25,6 +25,7 @@
     "dotenv": "^16.1.4",
     "express": "^4.18.2",
     "helmet": "^7.0.0",
+    "mongodb": "^6.1.0",
     "mongoose": "^7.5.2",
     "morgan": "^1.10.0"
   },
