@@ -26,7 +26,7 @@ app.use(cors(
 app.use(express.json());
 
 // create a list of all files in images folder
-const files = fs.readdirSync('images')
+// const files = fs.readdirSync('images')
 
 // run().then(() => console.log('connected')).catch(console.dir);
 
