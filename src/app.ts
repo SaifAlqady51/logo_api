@@ -28,7 +28,7 @@ app.use(express.json());
 // create a list of all files in images folder
 const files = fs.readdirSync('images')
 
-run().then(() => console.log('connected')).catch(console.dir);
+// run().then(() => console.log('connected')).catch(console.dir);
 
 // connecting mongodb atlas
 // const MONGO_URL = `${process.env.DATABASE_URL}` as string
